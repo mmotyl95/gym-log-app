@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to your Dashboard {{ current_user.username }}! 🏋️‍♂️</h1>
+    <h2>Your Workouts:</h2>
+
+    {% if workouts %}
+        <ul>
+            {% for workout in workouts %}
+                <li>
+                    <strong>{{ workout.date.strftime('%Y-%m-%d %H:%M') }}</strong> - 
+                    {{ workout.exercise }} ({{ workout.sets }}x{{ workout.reps }}, {{ workout.weight or 0 }}kg)
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Currently there are no saved workouts. Add your first one!</p>
+    {% endif %}
+
+    <a href="{{ url_for('auth.logout') }}">Log Out</a>
+</body>
+</html>
