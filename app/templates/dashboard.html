@@ -8,7 +8,7 @@
 <body>
     <h1>Welcome to your Dashboard {{ current_user.username }}! 🏋️‍♂️</h1>
     <h2>Your Workouts:</h2>
-
+    <a href="{{ url_for('main.add_workout') }}">➕ Add New Workout</a>
     {% if workouts %}
         <ul>
             {% for workout in workouts %}
