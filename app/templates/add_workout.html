@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Workout</title>
+</head>
+<body>
+    <h1>Add a New Workout 🏋️‍♂️</h1>
+    
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.exercise.label }}<br>
+            {{ form.exercise(size=30) }}
+        </p>
+        <p>
+            {{ form.sets.label }}<br>
+            {{ form.sets() }}
+        </p>
+        <p>
+            {{ form.reps.label }}<br>
+            {{ form.reps() }}
+        </p>
+        <p>
+            {{ form.weight.label }}<br>
+            {{ form.weight() }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

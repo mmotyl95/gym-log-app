@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms import IntegerField, FloatField, StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
@@ -13,3 +13,10 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class WorkoutForm(FlaskForm):
+    exercise = StringField('Exercise', validators=[DataRequired(), Length(min=2, max=100)])
+    sets = IntegerField('Sets', validators=[DataRequired(), NumberRange(min=1, message="Must be at least 1 set")])
+    reps = IntegerField('Reps', validators=[DataRequired(), NumberRange(min=1, message="Must be at least 1 rep")])
+    weight = FloatField('Weight (kg)', validators=[NumberRange(min=0, message="Weight must be non-negative")])
+    submit = SubmitField('Add Workout')
