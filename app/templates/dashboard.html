@@ -29,6 +29,13 @@
                         <td>{{ workout.sets }}</td>
                         <td>{{ workout.reps }}</td>
                         <td>{{ workout.weight or 0 }}</td>
+                        <td>
+                            <a href="{{ url_for('main.edit_workout', workout_id=workout.id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                            
+                            <form action="{{ url_for('main.delete_workout', workout_id=workout.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

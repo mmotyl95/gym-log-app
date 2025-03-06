@@ -32,5 +32,40 @@ def add_workout():
         db.session.commit()
         flash('Workout added successfully!', 'success')
         return redirect(url_for('main.dashboard'))
-
     return render_template('add_workout.html', form=form)
+
+@main.route('/edit_workout/<int:workout_id>', methods=['GET', 'POST'])
+@login_required
+def edit_workout(workout_id):
+    workout = Workout.query.get_or_404(workout_id)
+    
+    if workout.user_id != current_user.id:
+        flash("You don't have permission to edit this workout!", "danger")
+        return redirect(url_for('main.dashboard'))
+
+    form = WorkoutForm(obj=workout)
+
+    if form.validate_on_submit():
+        workout.exercise = form.exercise.data
+        workout.sets = form.sets.data
+        workout.reps = form.reps.data
+        workout.weight = form.weight.data or 0
+        db.session.commit()
+        flash('Workout updated successfully!', 'success')
+        return redirect(url_for('main.dashboard'))
+
+    return render_template('edit_workout.html', form=form, workout=workout)
+
+@main.route('/delete_workout/<int:workout_id>', methods=['POST'])
+@login_required
+def delete_workout(workout_id):
+    workout = Workout.query.get_or_404(workout_id)
+
+    if workout.user_id != current_user.id:
+        flash("You don't have permission to delete this workout!", "danger")
+        return redirect(url_for('main.dashboard'))
+
+    db.session.delete(workout)
+    db.session.commit()
+    flash('Workout deleted successfully!', 'success')
+    return redirect(url_for('main.dashboard'))
