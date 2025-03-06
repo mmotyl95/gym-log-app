@@ -13,10 +13,11 @@ def home():
 @main.route('/dashboard')
 @login_required
 def dashboard():
+    form = WorkoutForm()
     workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date.desc()).all()
-    return render_template('dashboard.html', workouts=workouts)
+    return render_template('dashboard.html', workouts=workouts, form=form)
 
-@main.route('/add_workout', methods=['GET', 'POST'])
+@main.route('/add_workout', methods=['POST'])
 @login_required
 def add_workout():
     form = WorkoutForm()
@@ -31,8 +32,8 @@ def add_workout():
         db.session.add(workout)
         db.session.commit()
         flash('Workout added successfully!', 'success')
-        return redirect(url_for('main.dashboard'))
-    return render_template('add_workout.html', form=form)
+    
+    return redirect(url_for('main.dashboard'))
 
 @main.route('/edit_workout/<int:workout_id>', methods=['GET', 'POST'])
 @login_required
