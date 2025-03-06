@@ -19,15 +19,6 @@ Easily deployable with **Docker** and **Terraform on Azure**.
 
 ---
 
-## 📸 Screenshots  
-### **Dashboard**  
-![Dashboard](https://via.placeholder.com/600x300?text=Dashboard+Screenshot)  
-
-### **Dark Mode**  
-![Dark Mode](https://via.placeholder.com/600x300?text=Dark+Mode+Screenshot)  
-
----
-
 🛠️ Technology Stack
 
 🔹 Backend: Flask (Python)
