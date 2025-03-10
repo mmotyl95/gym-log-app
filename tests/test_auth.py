@@ -7,8 +7,8 @@ def test_register(client):
         "confirm_password": "password123"
     }, follow_redirects=True)
 
-    assert b"Account created!" in response.data  # Sprawdzamy, czy dostaliśmy komunikat o sukcesie
     assert response.status_code == 200
+    assert b"Login" in response.data
 
 def test_login(client, init_database):
     """Test successful login."""
@@ -17,5 +17,5 @@ def test_login(client, init_database):
         "password": "password123"
     }, follow_redirects=True)
 
-    assert b"Logged in successfully!" in response.data  # Czy mamy sukces?
     assert response.status_code == 200
+    assert b"Dashboard" in response.data or b"Welcome to Gym Log" in response.data

@@ -1,11 +1,9 @@
-from flask_login import login_user
-from app.models import User
-
-def test_add_workout(client, init_database, test_app):
+def test_add_workout(client, init_database):
     """Test adding a workout."""
-    with test_app.app_context():
-        user = User.query.filter_by(email="test@example.com").first()
-        login_user(user)  # Symulujemy zalogowanie
+    client.post("/auth/login", data={
+        "email": "test@example.com",
+        "password": "password123"
+    }, follow_redirects=True)
 
     response = client.post("/add_workout", data={
         "exercise": "Bench Press",
@@ -14,5 +12,6 @@ def test_add_workout(client, init_database, test_app):
         "weight": 80
     }, follow_redirects=True)
 
-    assert b"Workout added successfully!" in response.data
     assert response.status_code == 200
+    assert b"Dashboard" in response.data
+    assert b"Bench Press" in response.data

@@ -8,15 +8,15 @@ def test_app():
     app = create_app()
     app.config.update({
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",  # Testowa baza w pamięci
-        "WTF_CSRF_ENABLED": False  # Wyłącz CSRF dla testów
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+        "WTF_CSRF_ENABLED": False
     })
 
     with app.app_context():
-        db.create_all()  # Tworzymy testową bazę danych
-        yield app  # Testy działają w tym kontekście
+        db.create_all()
+        yield app
         db.session.remove()
-        db.drop_all()  # Usuwamy testową bazę po zakończeniu testów
+        db.drop_all()
 
 @pytest.fixture
 def client(test_app):
@@ -25,7 +25,7 @@ def client(test_app):
 
 @pytest.fixture
 def init_database(test_app):
-    """Tworzymy testowego użytkownika."""
+    """Creating test user."""
     with test_app.app_context():
         user = User(username="testuser", email="test@example.com")
         user.set_password("password123")
