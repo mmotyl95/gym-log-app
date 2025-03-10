@@ -1,9 +1,11 @@
 datetime
 email-validator
 flask
-flask-sqlalchemy
-flask-login
-flask-wtf
 flask-bcrypt
+flask-login
+flask-sqlalchemy
+flask-testing
+flask-wtf
 gunicorn
+pytest
 wtforms
