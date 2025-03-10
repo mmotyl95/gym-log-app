@@ -21,11 +21,11 @@ Easily deployable with **Docker** and **Terraform on Azure**.
 
 🛠️ Technology Stack
 
-🔹 Backend: Flask (Python)
-🔹 Frontend: HTML, Bootstrap
-🔹 Database: SQLite (Local), PostgreSQL (Azure)
-🔹 Auth: Flask-Login, Flask-Bcrypt
-🔹 Deployment: Docker, Terraform, Azure Web Apps
+🔹 Backend: Flask (Python)  
+🔹 Frontend: HTML, Bootstrap  
+🔹 Database: SQLite (Local), PostgreSQL (Azure)  
+🔹 Auth: Flask-Login, Flask-Bcrypt  
+🔹 Deployment: Docker, Terraform, Azure Web Apps  
 
 ---
 
