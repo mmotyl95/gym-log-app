@@ -4,8 +4,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-between align-items-center">
-        <h1>Dashboard</h1>
-        <!-- Button to trigger modal -->
+        <h1>🏋️ Dashboard</h1>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addWorkoutModal">
             ➕ Add Workout
         </button>
@@ -48,6 +47,14 @@
         <div class="alert alert-info">No workouts recorded yet. Add your first workout!</div>
     {% endif %}
 
+    <hr>
+
+    <h2>📊 Workout Progress</h2>
+    <div id="weightChart"></div>
+
+    <h2>🏋️ Exercise Comparison</h2>
+    <div id="exerciseChart"></div>
+
     <!-- MODAL: Add Workout -->
     <div class="modal fade" id="addWorkoutModal" tabindex="-1" aria-labelledby="addWorkoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -89,5 +96,62 @@
             </div>
         </div>
     </div>
+
+    <!-- 📊Plotly.js charts -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("/workout_data")
+            .then(response => response.json())
+            .then(data => {
+                let exercises = Object.keys(data);
+                if (exercises.length === 0) {
+                    console.warn("No workout data available.");
+                    return;
+                }
+        
+                let weightTraces = exercises.map(exercise => ({
+                    x: data[exercise].dates,
+                    y: data[exercise].weights,
+                    name: exercise,
+                    type: 'bar',
+                    marker: { color: getRandomColor() }
+                }));
+        
+                Plotly.newPlot('weightChart', weightTraces, {
+                    title: 'Weight Progress Over Time',
+                    xaxis: { title: 'Date', type: 'category' },
+                    yaxis: { title: 'Total Weight (kg)' },
+                    barmode: 'group'
+                });
+        
+                let setData = exercises.map(ex => ({
+                    x: [ex],
+                    y: [data[ex].sets.reduce((a, b) => a + b, 0)],
+                    name: ex,
+                    type: 'bar'
+                }));
+        
+                let repData = exercises.map(ex => ({
+                    x: [ex],
+                    y: [data[ex].reps.reduce((a, b) => a + b, 0)],
+                    name: ex,
+                    type: 'bar'
+                }));
+        
+                Plotly.newPlot('exerciseChart', [...setData, ...repData], {
+                    title: 'Total Sets & Reps Per Exercise',
+                    barmode: 'group',
+                    xaxis: { title: 'Exercise', type: 'category' },
+                    yaxis: { title: 'Count' }
+                });
+            })
+            .catch(error => console.error("Error loading workout data:", error));
+        
+            function getRandomColor() {
+                return `hsl(${Math.random() * 360}, 100%, 60%)`;
+            }
+        });
+    </script>
 
 {% endblock %}
