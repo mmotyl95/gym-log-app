@@ -70,3 +70,26 @@ def delete_workout(workout_id):
     db.session.commit()
     flash('Workout deleted successfully!', 'success')
     return redirect(url_for('main.dashboard'))
+
+from flask import jsonify
+from app.models import Workout
+
+from flask import jsonify
+from app.models import Workout
+
+@main.route('/workout_data')
+@login_required
+def workout_data():
+    workouts = Workout.query.filter_by(user_id=current_user.id).order_by(Workout.date).all()
+    
+    data = {}
+    for workout in workouts:
+        if workout.exercise not in data:
+            data[workout.exercise] = {"dates": [], "weights": [], "sets": [], "reps": []}
+
+        data[workout.exercise]["dates"].append(workout.date.strftime("%Y-%m-%d"))
+        data[workout.exercise]["weights"].append(float(workout.weight or 0))
+        data[workout.exercise]["sets"].append(int(workout.sets))
+        data[workout.exercise]["reps"].append(int(workout.reps))
+
+    return jsonify(data)
