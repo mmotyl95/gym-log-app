@@ -85,8 +85,7 @@ def workout_data():
     data = {}
     for workout in workouts:
         if workout.exercise not in data:
-            data[workout.exercise] = {"dates": [], "weights": [], "sets": [], "reps": []}
-
+            data[workout.exercise] = {"dates": [], "weights": [], "sets": [], "reps": []}   
         data[workout.exercise]["dates"].append(workout.date.strftime("%Y-%m-%d"))
         data[workout.exercise]["weights"].append(float(workout.weight or 0))
         data[workout.exercise]["sets"].append(int(workout.sets))
